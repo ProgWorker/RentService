@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_gravity="center_horizontal"
+    android:layout_marginBottom="15dp"
+    android:layout_width="match_parent"
+    android:minHeight="165dip"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rec_back">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/rec_image"
+        android:layout_width="170dp"
+        android:layout_height="170dp"
+        android:layout_gravity="center_vertical"
+        android:scaleType="centerCrop"
+        tools:srcCompat="@drawable/backgrounds" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="241dp"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="25dp">
+
+        <TextView
+            android:id="@+id/rec_header"
+            android:layout_width="wrap_content"
+            android:layout_height="29dip"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="serif"
+            android:paddingBottom="4dp"
+            android:background="@drawable/undrlne"
+            android:text="Заголовок блока"
+            android:textColor="@color/black"
+            android:textFontWeight="600"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/rec_subtitle"
+            android:layout_width="165dip"
+            android:layout_height="60dip"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:fontFamily="serif"
+            android:gravity="left"
+            android:lineSpacingExtra="4sp"
+            android:text="Кратенькое описание блока с тремя строчками"
+            android:textColor="@color/black"
+            android:textFontWeight="600"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rec_header" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</LinearLayout>

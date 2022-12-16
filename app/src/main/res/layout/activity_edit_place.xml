@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/placeheader"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_margin="16dp"
+        android:textColor="@color/black"
+        android:text="Добавить place"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/nameplace"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/rec_back"
+        android:hint="Наименование"
+        android:padding="8dp"
+        android:textSize="9dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/placeheader" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imageadd"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/putin"
+        android:scaleType="centerCrop"
+        android:theme="@style/roundedImageViewss"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nameplace" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/imageadd"
+        android:paddingBottom="270dp">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="20dp">
+            <TextView
+                android:id="@+id/descriptionheader"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:textColor="@color/black"
+                android:layout_margin="16dp"
+                android:text="Описание"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textView1"
+                android:layout_width="match_parent"
+                android:layout_height="185dp"
+                android:layout_margin="16dp"
+                android:background="@drawable/rec_back"
+                android:gravity="top"
+                android:hint="Описание"
+                android:padding="15dp"
+                android:textSize="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/descriptionheader" />
+
+            <TextView
+                android:id="@+id/addressheader"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_margin="16dp"
+                android:layout_marginTop="16dp"
+                android:text="Адрес"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView1" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/country"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_margin="16dp"
+                android:background="@drawable/rec_back"
+                android:hint="Страна"
+                android:padding="8dp"
+                android:textSize="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/addressheader" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/region"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_margin="16dp"
+                android:background="@drawable/rec_back"
+                android:hint="Регион"
+                android:padding="8dp"
+                android:textSize="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/country" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/city"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_margin="16dp"
+                android:background="@drawable/rec_back"
+                android:hint="Город"
+                android:padding="8dp"
+                android:textSize="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/region" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textView13"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_margin="16dp"
+                android:background="@drawable/rec_back"
+                android:hint="улица"
+                android:padding="8dp"
+                android:textSize="9dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/city" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/house"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_margin="16dp"
+                android:background="@drawable/rec_back"
+                android:hint="дом"
+                android:padding="8dp"
+                android:textSize="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView13" />
+
+            <TextView
+                android:id="@+id/categoryheader"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_margin="16dp"
+                android:text="Выбор категории"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.507"
+                app:layout_constraintStart_toStartOf="parent"
+                android:textColor="@color/black"
+                app:layout_constraintTop_toBottomOf="@+id/house" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/category"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_margin="16dp"
+                android:background="@drawable/rec_back"
+                android:hint="Категория"
+                android:padding="8dp"
+                android:textSize="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.492"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/categoryheader" />
+
+
+            <TextView
+                android:id="@+id/roomheader"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_margin="16dp"
+                android:layout_marginTop="16dp"
+                android:text="Комната"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/category" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/room"
+                android:layout_width="match_parent"
+                android:layout_height="354dp"
+                android:layout_margin="16dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/rec_back"
+                android:padding="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/roomheader"
+                tools:ignore="MissingConstraints">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/save"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="16dp"
+                android:background="@drawable/button_rec"
+                android:fontFamily="sans-serif-medium"
+                android:text="Сохранить"
+                android:textColor="@color/black"
+                android:textFontWeight="500"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/room"
+                tools:ignore="MissingConstraints,TouchTargetSizeCheck" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

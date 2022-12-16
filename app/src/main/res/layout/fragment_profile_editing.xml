@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/avatar"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:scaleType="centerCrop"
+            android:theme="@style/roundedImageViews"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/hotelik" />
+
+        <TextView
+            android:id="@+id/login"
+            android:layout_width="190dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="32dp"
+            android:text="Login"
+            android:padding="8dp"
+            android:background="@drawable/rec_back"
+            android:textColor="@color/black"
+            android:textSize="10dp"
+            app:layout_constraintStart_toEndOf="@+id/avatar"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/name"
+            android:layout_width="190dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/rec_back"
+            android:padding="8dp"
+            android:text="Имя"
+            android:textSize="10dp"
+            app:layout_constraintStart_toEndOf="@+id/avatar"
+            app:layout_constraintTop_toBottomOf="@+id/login" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/secondname"
+            android:layout_width="190dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/rec_back"
+            android:padding="8dp"
+            android:text="Фамилия"
+            android:textSize="10dp"
+            app:layout_constraintStart_toEndOf="@+id/avatar"
+            app:layout_constraintTop_toBottomOf="@+id/name" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/email"
+            android:layout_width="355dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="32dp"
+            android:text="E-почта"
+            android:textSize="10dp"
+            android:background="@drawable/rec_back"
+            android:padding="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/secondname"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="16dp" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/numberphone"
+            android:layout_width="354dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/rec_back"
+            android:padding="8dp"
+            android:text="Номер телефона"
+            android:textSize="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/email"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="16dp" />
+
+        <TextView
+            android:id="@+id/renamepass"
+            android:layout_width="353dp"
+            android:layout_height="21dp"
+            android:layout_marginTop="16dp"
+            android:text="Смена пароля"
+            android:textColor="@color/black"
+            android:textSize="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/numberphone"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="16dp" />
+
+        <EditText
+            android:id="@+id/oldpass"
+            android:layout_width="354dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:hint="Введите старый пароль"
+            android:background="@drawable/rec_back"
+            android:padding="8dp"
+            android:inputType="textPassword"
+            android:textSize="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/renamepass"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="16dp" />
+
+        <EditText
+            android:id="@+id/newpass"
+            android:background="@drawable/rec_back"
+            android:padding="8dp"
+            android:layout_width="354dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:hint="Введите новый пароль"
+            android:inputType="textPassword"
+            android:textSize="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/oldpass"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="16dp" />
+
+        <EditText
+            android:id="@+id/newpasstwo"
+            android:layout_width="354dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:hint="Подтвердите новый пароль"
+            android:background="@drawable/rec_back"
+            android:padding="8dp"
+            android:inputType="textPassword"
+            android:textSize="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/newpass"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="17dp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/save"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="76dp"
+            android:layout_margin="40dp"
+            android:background="@drawable/button_rec"
+            android:fontFamily="sans-serif-medium"
+            android:text="Сохранить"
+            android:textColor="@color/black"
+            android:textFontWeight="500"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/newpasstwo"
+            tools:ignore="MissingConstraints,TouchTargetSizeCheck" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>
