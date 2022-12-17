@@ -3,6 +3,7 @@ package com.example.rentservice;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -17,6 +18,9 @@ import android.widget.Toast;
 import com.example.rentservice.Server.Networking;
 import com.example.rentservice.Server.POJO.User.UserAuth;
 import com.example.rentservice.Server.POJO.User.UserData;
+import com.example.rentservice.util.*;
+
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -99,22 +103,24 @@ public class LoginFragment extends Fragment {
                     .authorize(new UserAuth(nick, pas))
                     .enqueue(new Callback<UserData>() {
                         @Override
-                        public void onResponse(Call<UserData> call, Response<UserData> response) {
+                        public void onResponse(@NonNull Call<UserData> call, @NonNull Response<UserData> response) {
                             if (response.code() < 400){
                                 UserData data = response.body();
-                                Toast.makeText(getContext(), data.getUser().getUser_name(), Toast.LENGTH_SHORT).show();
+                                new SBHelper(requireContext()).remeberUser(Objects.requireNonNull(data).getUser(), data.getToken());
+                                Toast.makeText(getContext(), data.getUser().getUsername(), Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(getActivity(), MainActivity.class);
-                                intent.putExtra("username", data.getUser().getUser_name());
+                                intent.putExtra("username", data.getUser().getUsername());
+                                intent.putExtra("userid", data.getUser().getId());
                                 intent.putExtra("token", data.getToken());
                                 startActivity(intent);
-                                getActivity().finish();
+                                requireActivity().finish();
                             } else {
                                 Toast.makeText(getContext(), "Invalid data "+response.code(), Toast.LENGTH_SHORT).show();
                             }
                         }
 
                         @Override
-                        public void onFailure(Call<UserData> call, Throwable t) {
+                        public void onFailure(@NonNull Call<UserData> call, @NonNull Throwable t) {
                             Toast.makeText(getContext(), "connection error", Toast.LENGTH_SHORT).show();
                         }
 

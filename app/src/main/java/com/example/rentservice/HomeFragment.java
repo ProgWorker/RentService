@@ -1,11 +1,8 @@
 package com.example.rentservice;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -22,19 +19,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.rentservice.Server.Networking;
+import com.example.rentservice.Server.POJO.Place.Address;
 import com.example.rentservice.Server.POJO.Place.Cat;
 import com.example.rentservice.Server.POJO.Place.Cats;
 import com.example.rentservice.Server.POJO.Place.PBase;
 import com.example.rentservice.Server.POJO.Place.Place;
-import com.example.rentservice.Server.POJO.User.UserAuth;
-import com.example.rentservice.Server.POJO.User.UserData;
-import com.example.rentservice.Util.Callbacks.GoToPlaceCallback;
+import com.example.rentservice.util.callbacks.GoToPlaceCallback;
 import com.example.rentservice.databinding.FragmentHomeBinding;
 
 import java.util.ArrayList;
@@ -147,7 +142,9 @@ public class HomeFragment extends Fragment {
                     }
 
                     @Override
-                    public void onFailure(Call<PBase> call, Throwable t) {}
+                    public void onFailure(Call<PBase> call, Throwable t) {
+                        Toast.makeText(requireContext(), "asdf", Toast.LENGTH_SHORT).show();
+                    }
 
                 });
         b.recList.setAdapter(rd);
@@ -254,11 +251,11 @@ public class HomeFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull RecViewHolder holder, int position) {
             holder.title.setText(data.get(position).getTitle());
-            holder.subtitle.setText(data.get(position).getUser());
+            Address addr = data.get(position).getAddress();
+            holder.subtitle.setText(addr.getCity() + ": " + addr.getStreet() + ", " + addr.getHome());
             holder.image.setImageBitmap(bm);
             holder.itemView.setOnClickListener(v -> {
-                cb.goToPlace(1);
-                //TODO:rewrite the logic with id when accessible
+                cb.goToPlace(data.get(position).getId());
             });
         }
 

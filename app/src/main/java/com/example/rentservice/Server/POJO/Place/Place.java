@@ -4,6 +4,8 @@ import com.example.rentservice.Server.POJO.User.User;
 import com.google.gson.annotations.SerializedName;
 
 public class Place {
+    @SerializedName("id")
+    int id;
     @SerializedName("title")
     String title;
     @SerializedName("description")
@@ -14,6 +16,16 @@ public class Place {
     String user;
     @SerializedName("category")
     String category;
+    @SerializedName("address")
+    Address address;
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
 
     public Place(String title, String description, float rating, String user, String category) {
         this.title = title;
@@ -21,6 +33,14 @@ public class Place {
         this.rating = rating;
         this.user = user;
         this.category = category;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitle() {

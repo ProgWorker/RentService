@@ -30,7 +30,7 @@
             android:layout_marginTop="32dp"
             android:background="@drawable/rec_back"
             android:paddingLeft="10dp"
-            android:text="login"
+            android:text="Никнейм"
             app:layout_constraintStart_toEndOf="@+id/avatar"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -100,14 +100,14 @@
         </androidx.recyclerview.widget.RecyclerView>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/exit"
+            android:id="@+id/editing"
             android:layout_width="136dp"
             android:layout_height="50dp"
-            android:layout_marginTop="44dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="28dp"
             android:background="@drawable/button_rec"
             android:fontFamily="sans-serif-medium"
-            android:text="Редактировать профиль"
+            android:text="Изменить профиль"
             android:textColor="@color/black"
             android:textFontWeight="500"
             android:textSize="15sp"
@@ -116,14 +116,14 @@
             tools:ignore="MissingConstraints,TouchTargetSizeCheck" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/editing"
+            android:id="@+id/exit"
             android:layout_width="136dp"
             android:layout_height="50dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="44dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/button_rec"
             android:fontFamily="sans-serif-medium"
-            android:text="Выйти с аккаунта"
+            android:text="Выйти"
             android:textColor="@color/black"
             android:textFontWeight="500"
             android:textSize="15sp"
