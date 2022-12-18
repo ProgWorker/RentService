@@ -26,61 +26,61 @@
 
     <ImageView
         android:id="@+id/main_image"
-        android:layout_width="match_parent"
-        android:layout_height="239dp"
+        android:layout_width="350dp"
+        android:layout_height="200dp"
         android:layout_marginTop="25dp"
         android:maxHeight="560dp"
         android:scaleType="centerCrop"
         android:src="@drawable/hotelik"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <ScrollView
-        android:id="@+id/scrollView2"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginTop="225dp"
+        android:layout_marginBottom="15dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.294"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/main_image">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <TextView
+            android:id="@+id/descrition"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="112dp"
+            android:layout_margin="5dp"
+            android:layout_marginTop="236dp"
+            android:background="@drawable/rec_back"
+            android:padding="10dp"
+            android:scrollbars="vertical"
+            android:text="Главный герой — 27-летний Илья Горюнов, семь лет отсидевший в тюрьме по ложному обвинению в распространении наркотиков. Когда Илья выходит на свободу, он понимает, что прежняя жизнь, по которой он тосковал, разрушена, и вернуться к ней он больше не сможет. Хотя он не собирался мстить человеку, который отправил его в тюрьму, другого выхода теперь нет. Встретившись лицом к лицу со своим обидчиком, Илья совершает необдуманный поступок, после которого главный герой получает доступ к смартфону Петра, а с ним и к жизни молодого человека — его фотографиям и видео, перепискам с родителями и девушкой Ниной, к странным, полным недомолвок и угроз переговорам с коллегами. На время Илья становится для всех Петром — через текст на экране телефона."
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.294"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/main_image" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/orders"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_marginBottom="25dp"
+            android:background="@drawable/rec_back"
+            android:padding="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/descrition"
+            tools:listitem="@layout/room_node" />
 
-            <TextView
-                android:id="@+id/descrition"
-                android:layout_width="match_parent"
-                android:layout_height="198dp"
-                android:layout_margin="5dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/rec_back"
-                android:padding="10dp"
-                android:text="Главный герой — 27-летний Илья Горюнов, семь лет отсидевший в тюрьме по ложному обвинению в распространении наркотиков. Когда Илья выходит на свободу, он понимает, что прежняя жизнь, по которой он тосковал, разрушена, и вернуться к ней он больше не сможет. Хотя он не собирался мстить человеку, который отправил его в тюрьму, другого выхода теперь нет. Встретившись лицом к лицу со своим обидчиком, Илья совершает необдуманный поступок, после которого главный герой получает доступ к смартфону Петра, а с ним и к жизни молодого человека — его фотографиям и видео, перепискам с родителями и девушкой Ниной, к странным, полным недомолвок и угроз переговорам с коллегами. На время Илья становится для всех Петром — через текст на экране телефона."
-                android:textAlignment="center"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/orders"
-                android:layout_width="match_parent"
-                android:layout_height="179dp"
-                android:layout_margin="5dp"
-                android:background="@drawable/rec_back"
-                android:padding="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/descrition" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    </ScrollView>
+    </LinearLayout>
 
     <RatingBar
         android:id="@+id/ratingBar"
         android:layout_width="240dp"
-        android:layout_height="44dp"
+        android:layout_height="48dp"
         android:layout_marginTop="4dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/main_image"

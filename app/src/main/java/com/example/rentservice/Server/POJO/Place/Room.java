@@ -2,6 +2,7 @@ package com.example.rentservice.Server.POJO.Place;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Room {
@@ -10,18 +11,40 @@ public class Room {
     @SerializedName("info")
     String info;
     @SerializedName("persons")
-    String persons;
+    int persons;
     @SerializedName("cost")
-    String cost;
+    float cost;
     @SerializedName("orders")
     List<Order> orderdata;
+    @SerializedName("id")
+    int id=0;
 
-    public Room(String status, String info, String persons, String cost, List<Order> orderdata) {
+    public Room(String status, String info, int persons, float cost, List<Order> orderdata) {
         this.status = status;
         this.info = info;
         this.persons = persons;
         this.cost = cost;
         this.orderdata = orderdata;
+    }
+
+    public Room(){
+        this.status = "asd";
+        this.info = "asdfg";
+        this.persons = 12;
+        this.cost = 122;
+        ArrayList<Order> d = new ArrayList<>();
+        d.add(new Order());
+        d.add(new Order());
+        d.add(new Order());
+        this.orderdata = d;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getStatus() {
@@ -40,19 +63,19 @@ public class Room {
         this.info = info;
     }
 
-    public String getPersons() {
+    public int getPersons() {
         return persons;
     }
 
-    public void setPersons(String persons) {
+    public void setPersons(int persons) {
         this.persons = persons;
     }
 
-    public String getCost() {
+    public float getCost() {
         return cost;
     }
 
-    public void setCost(String cost) {
+    public void setCost(float cost) {
         this.cost = cost;
     }
 

@@ -29,6 +29,8 @@ import com.example.rentservice.Server.POJO.Place.Cat;
 import com.example.rentservice.Server.POJO.Place.Cats;
 import com.example.rentservice.Server.POJO.Place.PBase;
 import com.example.rentservice.Server.POJO.Place.Place;
+import com.example.rentservice.adapters.CategoryAdapter;
+import com.example.rentservice.adapters.RecAdapter;
 import com.example.rentservice.util.callbacks.GoToPlaceCallback;
 import com.example.rentservice.databinding.FragmentHomeBinding;
 
@@ -49,13 +51,7 @@ public class HomeFragment extends Fragment {
         b = FragmentHomeBinding.inflate(inflater, container, false);
         View root = b.getRoot();
         nik = getActivity().getIntent().getStringExtra("Nickname");
-        getActivity();
-        sp = getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
-        String user = sp.getString("username", "default");
-        if(user.equals("defaul")){
-            startActivity(new Intent(getActivity(), AuthActivity.class));
-            getActivity().finish();
-        }
+
         LinearLayoutManager category_manager = new LinearLayoutManager(getContext());
         category_manager.setOrientation(LinearLayoutManager.HORIZONTAL);
         b.categoryList.setLayoutManager(category_manager);
@@ -71,10 +67,9 @@ public class HomeFragment extends Fragment {
         }
         Bitmap bitmap = BitmapFactory.decodeStream(istr);*/
 
-        final float scale = getContext().getResources().getDisplayMetrics().density;
 
         CategoryAdapter cd = new CategoryAdapter(getActivity(), mn, ()->{
-            updateCategory(scale);
+            updateCategory();
         });
 
         Networking.getInstance()
@@ -117,13 +112,14 @@ public class HomeFragment extends Fragment {
             popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
         });
 
-        RecAdapter rd = new RecAdapter(rn, scale, getContext());
+        RecAdapter rd = new RecAdapter(rn, getContext());
         //ArrayList<RecNode> data = new ArrayList<>();
         //Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.backgrounds);
         //data.add(new RecNode(bm, "asd", "asdf", "asdasf"));
         rd.setGoPlace(v -> {
             Intent i = new Intent(getActivity(), PlaceActivity.class);
             i.putExtra("place_id", v);
+            i.putExtra("username", nik);
             startActivity(i);
         });
         //rd.setData(data);
@@ -152,14 +148,14 @@ public class HomeFragment extends Fragment {
 
 
 
-        //updateAdvise(scale);
+        //updateAdvise();
         return root;
     }
 
-    private void updateCategory(float scale){
+    private void updateCategory(){
         ArrayList<RecNode> rn = new ArrayList<>();
             //TODO: make load of predlozheniya here
-        //b.recList.setAdapter(new RecAdapter(rn, scale));
+        //b.recList.setAdapter(new RecAdapter(rn));
         //((RecAdapter)b.recList.getAdapter()).setData(rn);
         //((RecAdapter)b.recList.getAdapter()).notifyDataSetChanged();
     }
@@ -171,114 +167,8 @@ public class HomeFragment extends Fragment {
         b = null;
     }
 
-    static class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MoodViewHolder> {
 
-        private ArrayList<Cat> data;
-        private Context context;
-        private MoodUpdateListener ntf;
-        Bitmap bm;
-        public CategoryAdapter(Context context, ArrayList<Cat> data, MoodUpdateListener nft){
-            this.data = data;
-            this.context=context;
-            ntf=nft;
-            bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.backgrounds);
-        }
 
-        public void setData(ArrayList<Cat> data) {
-            this.data = data;
-            this.notifyDataSetChanged();
-        }
 
-        @NonNull
-        @Override
-        public MoodViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.mood_item, parent, false);
-            return new MoodViewHolder(v);
-        }
 
-        @Override
-        public void onBindViewHolder(@NonNull MoodViewHolder holder, int position) {
-            holder.title.setText(data.get(position).getName());
-            holder.category.setImageBitmap(bm);
-
-        }
-
-        @Override
-        public int getItemCount() {
-            return data.size();
-        }
-
-        class MoodViewHolder extends RecyclerView.ViewHolder {
-
-            public ImageButton category;
-            public TextView title;
-            public MoodViewHolder(@NonNull View itemView) {
-                super(itemView);
-                this.category = itemView.findViewById(R.id.mood_icon);
-                this.title = itemView.findViewById(R.id.mood_text);
-            }
-        }
-    }
-
-    static class RecAdapter extends RecyclerView.Adapter<RecAdapter.RecViewHolder> {
-
-        private ArrayList<Place> data;
-        float scale;
-        GoToPlaceCallback cb;
-        Bitmap bm;
-        public RecAdapter(ArrayList<Place> data, float scale, Context context){
-            this.data = data;
-            this.scale = scale;
-            bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.backgrounds);
-        }
-
-        public void setGoPlace(GoToPlaceCallback cb){
-            this.cb = cb;
-        }
-
-        public void setData(ArrayList<Place> data) {
-            this.data = data;
-            this.notifyDataSetChanged();
-        }
-
-        @NonNull
-        @Override
-        public RecViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.rec_item, parent, false);
-            return new RecViewHolder(v);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull RecViewHolder holder, int position) {
-            holder.title.setText(data.get(position).getTitle());
-            Address addr = data.get(position).getAddress();
-            holder.subtitle.setText(addr.getCity() + ": " + addr.getStreet() + ", " + addr.getHome());
-            holder.image.setImageBitmap(bm);
-            holder.itemView.setOnClickListener(v -> {
-                cb.goToPlace(data.get(position).getId());
-            });
-        }
-
-        @Override
-        public int getItemCount() {
-            return data.size();
-        }
-
-        class RecViewHolder extends RecyclerView.ViewHolder {
-
-            public ImageView image;
-            public TextView title, subtitle;
-            Button exp;
-            public RecViewHolder(@NonNull View itemView) {
-                super(itemView);
-                this.image = itemView.findViewById(R.id.rec_image);
-                this.title = itemView.findViewById(R.id.rec_header);
-                this.subtitle = itemView.findViewById(R.id.rec_subtitle);
-                this.exp = itemView.findViewById(R.id.rec_detail);
-            }
-        }
-    }
-    public interface MoodUpdateListener{
-        void onMoodUpdate();
-    }
 }
