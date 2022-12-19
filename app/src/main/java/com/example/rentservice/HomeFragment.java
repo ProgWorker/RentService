@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,11 +31,15 @@ import com.example.rentservice.Server.POJO.Place.Cats;
 import com.example.rentservice.Server.POJO.Place.PBase;
 import com.example.rentservice.Server.POJO.Place.Place;
 import com.example.rentservice.adapters.CategoryAdapter;
+import com.example.rentservice.adapters.OrderAdapter;
 import com.example.rentservice.adapters.RecAdapter;
+import com.example.rentservice.databinding.FilterBinding;
 import com.example.rentservice.util.callbacks.GoToPlaceCallback;
 import com.example.rentservice.databinding.FragmentHomeBinding;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -45,13 +50,13 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding b;
     public String nik;
     private SharedPreferences sp;
-
+    ArrayList<String> params;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         b = FragmentHomeBinding.inflate(inflater, container, false);
         View root = b.getRoot();
         nik = getActivity().getIntent().getStringExtra("Nickname");
-
+        params = new ArrayList<>();
         LinearLayoutManager category_manager = new LinearLayoutManager(getContext());
         category_manager.setOrientation(LinearLayoutManager.HORIZONTAL);
         b.categoryList.setLayoutManager(category_manager);
@@ -71,7 +76,16 @@ public class HomeFragment extends Fragment {
         CategoryAdapter cd = new CategoryAdapter(getActivity(), mn, ()->{
             updateCategory();
         });
+        Networking.getInstance().getJSONApi().getParams().enqueue(new Callback<ArrayList<String>>() {
+            @Override
+            public void onResponse(Call<ArrayList<String>> call, Response<ArrayList<String>> response) {
+                if(response.isSuccessful())
+                    params.addAll(response.body());
+            }
 
+            @Override
+            public void onFailure(Call<ArrayList<String>> call, Throwable t) {}
+        });
         Networking.getInstance()
                 .getJSONApi()
                 .getCategories()
@@ -99,20 +113,9 @@ public class HomeFragment extends Fragment {
 
 
 
-        b.filter.setOnClickListener(view -> {
-            LayoutInflater m = (LayoutInflater) getActivity().getSystemService(getActivity().LAYOUT_INFLATER_SERVICE);
-            View v = m.inflate(R.layout.filter, null);
-            int width = LinearLayout.LayoutParams.MATCH_PARENT;
-            int height = LinearLayout.LayoutParams.MATCH_PARENT;
-            boolean focusable = true; // lets taps outside the popup also dismiss it
-            final PopupWindow popupWindow = new PopupWindow(v, width, height, focusable);
 
-            // show the popup window
-            // which view you pass in doesn't matter, it is only used for the window tolken
-            popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
-        });
 
-        RecAdapter rd = new RecAdapter(rn, getContext());
+        RecAdapter rd = new RecAdapter(rn, requireContext());
         //ArrayList<RecNode> data = new ArrayList<>();
         //Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.backgrounds);
         //data.add(new RecNode(bm, "asd", "asdf", "asdasf"));
@@ -133,19 +136,54 @@ public class HomeFragment extends Fragment {
                             PBase data = response.body();
                             rd.setData((ArrayList<Place>)data.getPlaces());
                         } else {
-                            Toast.makeText(getContext(), "Invalid data "+response.code(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(requireContext(), "Invalid data "+response.code(), Toast.LENGTH_SHORT).show();
                         }
                     }
-
                     @Override
                     public void onFailure(Call<PBase> call, Throwable t) {
                         Toast.makeText(requireContext(), "asdf", Toast.LENGTH_SHORT).show();
                     }
-
                 });
+
         b.recList.setAdapter(rd);
 
-
+        b.filter.setOnClickListener(view -> {
+            FilterBinding fb = FilterBinding.inflate(getLayoutInflater());
+            int width = LinearLayout.LayoutParams.MATCH_PARENT;
+            int height = LinearLayout.LayoutParams.MATCH_PARENT;
+            final PopupWindow popupWindow = new PopupWindow(fb.getRoot(), width, height, true);
+            ParamAdapter pd = new ParamAdapter(params);
+            fb.filterview.setLayoutManager(new LinearLayoutManager(getContext()));
+            fb.filterview.setAdapter(pd);
+            fb.button.setOnClickListener(v -> {
+                Map<String,String> m = new HashMap<>();
+                if(fb.city.getText().length()>0)
+                    m.put("city", fb.city.getText().toString());
+                if(fb.country.getText().length()>0)
+                    m.put("country", fb.country.getText().toString());
+                if(fb.home.getText().length()>0)
+                    m.put("home", fb.home.getText().toString());
+                if(fb.title.getText().length()>0)
+                    m.put("title", fb.title.getText().toString());
+                m.put("rate", String.valueOf(fb.seekBar.getProgress()));
+                Networking.getInstance().getJSONApi().filterPlaces(m, pd.getBody()).enqueue(new Callback<ArrayList<Place>>() {
+                    @Override
+                    public void onResponse(Call<ArrayList<Place>> call, Response<ArrayList<Place>> response) {
+                        if(response.isSuccessful()){
+                            ArrayList<Place> data = response.body();
+                            rd.setData(data);
+                            popupWindow.dismiss();
+                        }
+                        Toast.makeText(getContext(), String.valueOf(response.code()), Toast.LENGTH_LONG).show();
+                    }
+                    @Override
+                    public void onFailure(Call<ArrayList<Place>> call, Throwable t) {
+                        Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+            });
+            popupWindow.showAtLocation(b.getRoot(), Gravity.CENTER, 0, 0);
+        });
 
 
         //updateAdvise();
@@ -169,6 +207,53 @@ public class HomeFragment extends Fragment {
 
 
 
+    class ParamAdapter extends RecyclerView.Adapter<ParamAdapter.ParamVH> {
+        ArrayList<String> data;
+        ArrayList<String> body;
+        public ParamAdapter(ArrayList<String> data){
+            this.data=data;
+            this.body = new ArrayList<>();
+        }
 
+        public void setData(ArrayList<String> data) {
+            this.data = data;
+        }
+
+        public ArrayList<String> getBody() {
+            return body;
+        }
+
+        @NonNull
+        @Override
+        public ParamVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cd_node, parent, false);
+            return new ParamVH(v);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull ParamVH holder, int position) {
+            holder.cb.setText(data.get(position));
+            holder.cb.setOnCheckedChangeListener((v, c) -> {
+                if(c){
+                    body.add(data.get(position));
+                } else {
+                    body.remove(data.get(position));
+                }
+            });
+        }
+
+        @Override
+        public int getItemCount() {
+            return data.size();
+        }
+
+        class ParamVH extends RecyclerView.ViewHolder{
+            CheckBox cb;
+            public ParamVH(@NonNull View itemView) {
+                super(itemView);
+                cb=itemView.findViewById(R.id.cd_node);
+            }
+        }
+    }
 
 }

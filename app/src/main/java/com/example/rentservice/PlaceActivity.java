@@ -1,13 +1,16 @@
 package com.example.rentservice;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -16,12 +19,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DecodeFormat;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.example.rentservice.Server.Networking;
 import com.example.rentservice.Server.POJO.Place.CPlace;
 import com.example.rentservice.Server.POJO.Place.Cat;
@@ -38,12 +47,14 @@ import com.example.rentservice.util.SBHelper;
 import com.example.rentservice.util.callbacks.GoToPlaceCallback;
 import com.example.rentservice.util.callbacks.GoToRoomCallback;
 import com.example.rentservice.util.callbacks.RetrofitSuccessCallback;
+import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -60,30 +71,63 @@ public class PlaceActivity extends AppCompatActivity {
         setContentView(b.getRoot());
         SBHelper h = new SBHelper(this);
         UserData ud = h.getUserData();
-        b.recDetail.setOnClickListener(view -> {
-            LayoutInflater m = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-            View v = m.inflate(R.layout.comments, null);
-            int width = LinearLayout.LayoutParams.MATCH_PARENT;
-            int height = LinearLayout.LayoutParams.MATCH_PARENT;
-            boolean focusable = true; // lets taps outside the popup also dismiss it
-            final PopupWindow popupWindow = new PopupWindow(v, width, height, focusable);
-            v.findViewById(R.id.button).setOnClickListener(vi -> {
-                Toast.makeText(getApplicationContext(),"comment sended", Toast.LENGTH_SHORT).show();
-            });
-            RecyclerView av = v.findViewById(R.id.comments);
-            av.setLayoutManager(new LinearLayoutManager(this));
-            av.setAdapter(cd);
-            popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
-        });
+
         b.descrition.setMovementMethod(new ScrollingMovementMethod());
         b.orders.setLayoutManager(new LinearLayoutManager(this));
         RoomAdapter rd = new RoomAdapter();
 
-        retrievePlaceData(v -> {
+            retrievePlaceData(v -> {
+            Picasso.get().setLoggingEnabled(true);
+            Picasso.get().load("http://10.0.2.2:8000"+v.getPlace().getPict()).resize(600,450).centerCrop().into(b.mainImage);
+            b.recDetail.setOnClickListener(view -> {
+                LayoutInflater m = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+                View vag = m.inflate(R.layout.comments, null);
+                int width = LinearLayout.LayoutParams.MATCH_PARENT;
+                int height = LinearLayout.LayoutParams.MATCH_PARENT;
+                boolean focusable = true; // lets taps outside the popup also dismiss it
+                final PopupWindow popupWindow = new PopupWindow(vag, width, height, focusable);
+                RecyclerView av = vag.findViewById(R.id.comments);
+                av.setLayoutManager(new LinearLayoutManager(this));
+                av.setAdapter(cd);
+                vag.findViewById(R.id.button).setOnClickListener(vi -> {
+                    Toast.makeText(getApplicationContext(),"comment sended", Toast.LENGTH_SHORT).show();
+                    HashMap<String, Object> body = new HashMap<>();
+                    String msg = ((EditText)vag.findViewById(R.id.addcomments)).getText().toString();
+                    body.put("msg", msg);
+                    body.put("place_id", v.getPlace().getId());
+                    Networking.getInstance().getJSONApi().postComment(ud.getToken(), body).enqueue(new Callback<String>() {
+                        @Override
+                        public void onResponse(Call<String> call, Response<String> response) {
+                            cd.data.add(new Comment(msg, ud.getUser().getId()));
+                            cd.notifyItemInserted(cd.data.size()-1);
+                        }
+
+                        @Override
+                        public void onFailure(Call<String> call, Throwable t) {}
+                    });
+                });
+                popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+            });
             b.descrition.setText(v.getPlace().getDescription());
             b.appCompatAutoCompleteTextView.setText(v.getPlace().getTitle());
             rd.setData((ArrayList<Room>) v.getRoomsdata());
-            if(v.getPlace().getUser().equalsIgnoreCase(ud.getUser().getUsername())){
+            if(v.getPlace().getUser().equalsIgnoreCase(String.valueOf(ud.getUser().getId()))){
+                b.placeEdit.setOnClickListener(e -> {
+                    Intent intent = new Intent(this, EditPlaceActivity.class);
+                    intent.putExtra("title", v.getPlace().getTitle());
+                    intent.putExtra("desc", v.getPlace().getDescription());
+                    intent.putExtra("username", v.getPlace().getUser());
+                    intent.putExtra("category", v.getPlace().getCategory());
+                    intent.putExtra("country", v.getPlace().getAddress().getCountry());
+                    intent.putExtra("city", v.getPlace().getAddress().getCity());
+                    intent.putExtra("home", v.getPlace().getAddress().getHome());
+                    intent.putExtra("street", v.getPlace().getAddress().getStreet());
+                    intent.putExtra("region", v.getPlace().getAddress().getRegion());
+                    intent.putExtra("place_id", v.getPlace().getId());
+                    intent.putExtra("pict", v.getPlace().getPict());
+                    startActivity(intent);
+                    finish();
+                });
                 rd.setOnClick((c, t) -> {
                     LayoutInflater m = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
                     View va = m.inflate(R.layout.ord_list, null);
@@ -94,6 +138,7 @@ public class PlaceActivity extends AppCompatActivity {
                     RecyclerView av = va.findViewById(R.id.orders);
                     av.setLayoutManager(new LinearLayoutManager(this));
                     OrderAdapter od = new OrderAdapter(c);
+                    od.setOwner(true);
                     av.setAdapter(od);
                     popupWindow.showAtLocation(b.getRoot(), Gravity.CENTER, 0, 0);
                 });
@@ -183,6 +228,7 @@ public class PlaceActivity extends AppCompatActivity {
             this.data.addAll(data);
             this.notifyDataSetChanged();
         }
+
         public void setOnClick(GoToRoomCallback cd){
             this.cd=cd;
         }

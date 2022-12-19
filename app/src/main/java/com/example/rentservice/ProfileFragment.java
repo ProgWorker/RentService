@@ -23,6 +23,7 @@ import com.example.rentservice.adapters.RecAdapter;
 import com.example.rentservice.util.*;
 import com.example.rentservice.databinding.FragmentProfileBinding;
 import com.example.rentservice.util.callbacks.GoToPlaceCallback;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,11 +45,16 @@ public class ProfileFragment extends Fragment {
         SBHelper helper = new SBHelper(requireContext());
         UserData usrd = helper.getUserData();
         User usr = usrd.getUser();
+        String fullPath = "http://10.0.2.2:8000"+usr.getAvatar();
+        Picasso.get().load(fullPath).into(b.avatar);
         b.login.setText(usr.getUsername());
         b.email.setText(usr.getEmail());
         b.name.setText(usr.getFirst_name());
         b.secondname.setText(usr.getLast_name());
         b.numberphone.setText(usr.getPhone());
+        b.editing.setOnClickListener(v -> {
+            startActivity(new Intent(getActivity(), ProfileEditActivity.class));
+        });
         b.exit.setOnClickListener(v -> {
             helper.dropSession(usr.getId());
             Intent intent = new Intent(requireContext(), GreetingActivity.class);
@@ -56,7 +62,7 @@ public class ProfileFragment extends Fragment {
             requireActivity().finish();
         });
         b.orders.setLayoutManager(new LinearLayoutManager(requireContext()));
-        if(usr.getRole().toLowerCase(Locale.ROOT).equals("user")){
+        if(usr.getRole().equalsIgnoreCase("user")){
             Networking.getInstance().getJSONApi().getOrders(usrd.getToken()).enqueue(new Callback<List<Order>>() {
                 @Override
                 public void onResponse(Call<List<Order>> call, Response<List<Order>> response) {

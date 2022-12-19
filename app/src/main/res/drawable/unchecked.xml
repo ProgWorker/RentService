@@ -10,6 +10,6 @@
         android:endColor="#84b0f1"
         android:angle="270" />
     <size
-        android:width="45dp"
-        android:height="45dp" />
+        android:width="25dp"
+        android:height="25dp" />
 </shape>

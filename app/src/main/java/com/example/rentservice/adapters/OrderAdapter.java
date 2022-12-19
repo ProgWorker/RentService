@@ -1,23 +1,39 @@
 package com.example.rentservice.adapters;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.rentservice.R;
+import com.example.rentservice.Server.Networking;
 import com.example.rentservice.Server.POJO.Place.Order;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHolder> {
 
     private ArrayList<Order> data;
+    boolean owner = false;
     public OrderAdapter(ArrayList<Order> data){
         this.data = data;
+    }
+
+    public void setOwner(boolean owner) {
+        this.owner = owner;
+    }
+
+    public boolean isOwner() {
+        return owner;
     }
 
     public void setData(ArrayList<Order> data) {
@@ -40,6 +56,22 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         holder.from.setText(data.get(position).getDate_from());
         holder.to.setText(data.get(position).getDate_to());
         holder.desc.setText(data.get(position).getP_name());
+        if(owner){
+            holder.itemView.setOnClickListener(v -> {
+                if(!data.get(position).getStatus().equalsIgnoreCase("approved"))
+                    Networking.getInstance().getJSONApi().approveOrder(data.get(position).getId()).enqueue(new Callback<String>() {
+                        @Override
+                        public void onResponse(Call<String> call, Response<String> response) {
+                            if(response.isSuccessful())
+                                holder.status.setText("approved");
+                        }
+                        @Override
+                        public void onFailure(Call<String> call, Throwable t) {
+                            Log.d("DATAERRORZAPROS", t.getMessage());
+                        }
+                    });
+            });
+        }
     }
 
     @Override

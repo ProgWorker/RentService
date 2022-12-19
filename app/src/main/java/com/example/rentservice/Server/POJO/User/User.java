@@ -19,6 +19,8 @@ public class User {
     String role;
     @SerializedName("description")
     String desription;
+    @SerializedName("avatar")
+    String avatar;
 
     public int getId() {
         return id;
@@ -28,7 +30,7 @@ public class User {
         this.id = id;
     }
 
-    public User(int id, String user_name, String email, String first_name, String last_name, String phone, String role, String desription) {
+    public User(int id, String user_name, String email, String first_name, String last_name, String phone, String role, String desription, String avatar) {
         this.id = id;
         this.username = user_name;
         this.email = email;
@@ -37,6 +39,15 @@ public class User {
         this.phone = phone;
         this.role = role;
         this.desription = desription;
+        this.avatar = avatar;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public User(){

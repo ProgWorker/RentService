@@ -75,6 +75,8 @@
             app:layout_constraintTop_toBottomOf="@+id/descrition"
             tools:listitem="@layout/room_node" />
 
+
+
     </LinearLayout>
 
     <RatingBar
@@ -85,6 +87,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/main_image"
         tools:ignore="SpeakableTextPresentCheck" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/place_edit"
+        android:layout_width="97dp"
+        android:layout_height="31dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="16dp"
+        android:background="@drawable/button_rec"
+        android:fontFamily="sans-serif-medium"
+        android:text="Редактировать"
+        android:textColor="@color/black"
+        android:textFontWeight="500"
+        android:textSize="6sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"  />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/rec_detail"
@@ -99,7 +116,6 @@
         android:textFontWeight="500"
         android:textSize="6sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:ignore="MissingConstraints,TouchTargetSizeCheck" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

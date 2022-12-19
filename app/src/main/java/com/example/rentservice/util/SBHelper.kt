@@ -23,12 +23,13 @@ class SBHelper(context: Context) : SQLiteOpenHelper(context, "rent.db", null, 1)
         val DESC: String = "DESCRIPTION"
         val USERID: String = "USER_ID"
         val TOKEN: String = "TOKEN"
+        val AVATAR: String = "AVATAR"
         val NAME: String = "TITLE"
     }
 
     val USER_CREATE =
         "CREATE TABLE if not exists $USER_TABLE ($ID integer PRIMARY KEY autoincrement,$NICKNAME text," +
-                "$EMAIL text,$FIRSTNAME text,$LASTNAME text,$PHONE text,$ROLE text,$DESC text,$TOKEN text)"
+                "$EMAIL text,$FIRSTNAME text,$LASTNAME text,$PHONE text,$ROLE text,$DESC text,$TOKEN text,$AVATAR text)"
 
     val TRAINING_CREATE =
         "CREATE TABLE if not exists $ADDITIONAL_INFO_TABLE ($ID integer PRIMARY KEY autoincrement,$NAME text,$USERID text)"
@@ -60,6 +61,7 @@ class SBHelper(context: Context) : SQLiteOpenHelper(context, "rent.db", null, 1)
         vals.put(ROLE, user.role)
         vals.put(PHONE, user.phone)
         vals.put(DESC, user.desription)
+        vals.put(AVATAR, user.avatar)
         vals.put(TOKEN, token)
         getWritableDatabase().insert(USER_TABLE, null, vals);
     }
@@ -68,7 +70,7 @@ class SBHelper(context: Context) : SQLiteOpenHelper(context, "rent.db", null, 1)
         var cur = getReadableDatabase()
             .query(USER_TABLE, null, null, null, null, null, null);
         if (cur.moveToFirst()) {
-            return UserData(cur.getString(8), cur.getInt(0), cur.getString(1), cur.getString(2), cur.getString(3), cur.getString(4), cur.getString(5), cur.getString(6), cur.getString(7))
+            return UserData(cur.getString(8), cur.getInt(0), cur.getString(1), cur.getString(2), cur.getString(3), cur.getString(4), cur.getString(5), cur.getString(6), cur.getString(7), cur.getString(9))
         } else return UserData()
     }
 

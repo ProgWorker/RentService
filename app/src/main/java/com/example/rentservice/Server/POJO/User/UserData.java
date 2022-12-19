@@ -8,9 +8,9 @@ public class UserData {
     @SerializedName("user")
     User user;
 
-    public UserData(String token, int id, String user_name, String email, String first_name, String last_name, String phone, String role, String description){
+    public UserData(String token, int id, String user_name, String email, String first_name, String last_name, String phone, String role, String description, String avatar){
         this.token = token;
-        this.user = new User(id, user_name, email, first_name, last_name, phone, role, description);
+        this.user = new User(id, user_name, email, first_name, last_name, phone, role, description, avatar);
     }
 
     public UserData(){

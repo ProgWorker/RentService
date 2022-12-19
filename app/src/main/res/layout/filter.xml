@@ -25,44 +25,35 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/filterview"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_margin="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <androidx.appcompat.widget.AppCompatCheckBox
-        android:id="@+id/onecheck"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_marginLeft="48dp"
-        android:layout_marginTop="212dp"
-        android:layout_marginRight="48dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/button_rec"
-        android:button="@drawable/custom_checkbox"
-        android:paddingLeft="10dp"
-        android:text="one"
-        android:textSize="15dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="5dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.473"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        tools:listitem="@layout/cd_node" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="25dp"
         android:layout_margin="16dp"
+        android:layout_marginTop="80dp"
         android:background="@drawable/rec_back"
         android:hint="title"
-        android:padding="8dp"
-        android:textSize="8dp"
+        android:paddingStart="8dp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.312"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/onecheck" />
+        app:layout_constraintTop_toBottomOf="@+id/filterview" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/country"
@@ -71,8 +62,8 @@
         android:layout_margin="16dp"
         android:background="@drawable/rec_back"
         android:hint="country"
-        android:padding="8dp"
-        android:textSize="8dp"
+        android:paddingStart="8dp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -85,27 +76,50 @@
         android:layout_margin="16dp"
         android:background="@drawable/rec_back"
         android:hint="city"
-        android:padding="8dp"
-        android:textSize="8dp"
+        android:paddingStart="8dp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/country" />
+
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/home"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/rec_back"
+        android:hint="home"
+        android:paddingStart="8dp"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/city" />
 
     <TextView
         android:id="@+id/rate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Рейтинг"
-        android:textColor="@color/black"
-        android:textAlignment="center"
         android:padding="8dp"
+        android:text="Рейтинг"
+        android:textAlignment="center"
+        android:textColor="@color/black"
         android:textSize="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/city" />
+        app:layout_constraintTop_toBottomOf="@+id/home" />
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/button_rec"
+        android:text="Submit"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@+id/seekBar"
+        tools:layout_editor_absoluteX="50dp" />
 
     <SeekBar
         android:id="@+id/seekBar"
@@ -113,24 +127,11 @@
         android:layout_width="match_parent"
         android:layout_height="25dp"
         android:layout_margin="16dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/button_rec"
-        android:layout_marginTop="12dp"
         android:max="5"
         android:progress="3"
         app:layout_constraintTop_toBottomOf="@+id/rate"
-        tools:layout_editor_absoluteX="40dp" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button"
-        android:layout_width="match_parent"
-        android:layout_height="25dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginRight="50dp"
-        android:layout_marginLeft="50dp"
-        android:background="@drawable/button_rec"
-        android:text="Submit"
-        android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@+id/seekBar"
-        tools:layout_editor_absoluteX="0dp" />
+        tools:layout_editor_absoluteX="16dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

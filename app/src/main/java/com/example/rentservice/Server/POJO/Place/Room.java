@@ -27,6 +27,19 @@ public class Room {
         this.orderdata = orderdata;
     }
 
+    public Room(String info, int persons, float cost) {
+        this.info = info;
+        this.persons = persons;
+        this.cost = cost;
+    }
+
+    public Room(String info, int persons, float cost, int id) {
+        this.info = info;
+        this.persons = persons;
+        this.cost = cost;
+        this.id=id;
+    }
+
     public Room(){
         this.status = "asd";
         this.info = "asdfg";

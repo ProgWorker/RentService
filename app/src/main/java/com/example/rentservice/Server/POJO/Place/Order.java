@@ -17,6 +17,10 @@ public class Order {
     String p_name = "";
     @SerializedName("room_id")
     int room_id;
+    @SerializedName("id")
+    int id;
+
+
 
     public Order(String status, int user, int persons, String date_from, String date_to) {
         this.status = status;
@@ -39,6 +43,14 @@ public class Order {
         this.persons = 2;
         this.date_from = "2022-12-18T12:00:00";
         this.date_to = "2022-12-20T15:00:00";
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getP_name() {

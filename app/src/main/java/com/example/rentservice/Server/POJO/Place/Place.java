@@ -19,6 +19,10 @@ public class Place {
     @SerializedName("address")
     Address address;
 
+
+    @SerializedName("pict")
+    String pict;
+
     public Address getAddress() {
         return address;
     }
@@ -33,6 +37,14 @@ public class Place {
         this.rating = rating;
         this.user = user;
         this.category = category;
+    }
+
+    public String getPict() {
+        return pict;
+    }
+
+    public void setPict(String pict) {
+        this.pict = pict;
     }
 
     public int getId() {
