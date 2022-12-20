@@ -21,7 +21,8 @@ public class User {
     String desription;
     @SerializedName("avatar")
     String avatar;
-
+    @SerializedName("pas")
+    String pas;
     public int getId() {
         return id;
     }
@@ -40,6 +41,14 @@ public class User {
         this.role = role;
         this.desription = desription;
         this.avatar = avatar;
+    }
+
+    public User(String user_name, String email, String phone, String role, String pas) {
+        this.username = user_name;
+        this.email = email;
+        this.phone = phone;
+        this.role = role;
+        this.pas = pas;
     }
 
     public String getAvatar() {

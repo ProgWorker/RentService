@@ -39,6 +39,14 @@ public class Place {
         this.category = category;
     }
 
+    public Place(String title, String description, String user, String category) {
+        this.title = title;
+        this.description = description;
+        this.user = user;
+        this.category = category;
+    }
+
+
     public String getPict() {
         return pict;
     }

@@ -111,7 +111,7 @@ public class PlaceActivity extends AppCompatActivity {
             b.descrition.setText(v.getPlace().getDescription());
             b.appCompatAutoCompleteTextView.setText(v.getPlace().getTitle());
             rd.setData((ArrayList<Room>) v.getRoomsdata());
-            if(v.getPlace().getUser().equalsIgnoreCase(String.valueOf(ud.getUser().getId()))){
+            if(v.getPlace().getUser().equalsIgnoreCase(String.valueOf(ud.getUser().getUsername()))){
                 b.placeEdit.setOnClickListener(e -> {
                     Intent intent = new Intent(this, EditPlaceActivity.class);
                     intent.putExtra("title", v.getPlace().getTitle());

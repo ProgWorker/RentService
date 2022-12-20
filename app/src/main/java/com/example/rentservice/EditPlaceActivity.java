@@ -64,12 +64,12 @@ public class EditPlaceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         b = ActivityEditPlaceBinding.inflate(getLayoutInflater());
         setContentView(b.getRoot());
-        b.nameplace.setText(getIntent().getStringExtra("title"));
-        b.textView1.setText(getIntent().getStringExtra("desc"));
+        b.etitle.setText(getIntent().getStringExtra("title"));
+        b.edesc.setText(getIntent().getStringExtra("desc"));
         b.country.setText(getIntent().getStringExtra("country"));
         b.region.setText(getIntent().getStringExtra("region"));
         b.city.setText(getIntent().getStringExtra("city"));
-        b.textView13.setText(getIntent().getStringExtra("street"));
+        b.etitle.setText(getIntent().getStringExtra("street"));
         b.house.setText(getIntent().getStringExtra("home"));
         b.category.setText(getIntent().getStringExtra("category"));
         ActivityResultLauncher<Intent> pickImage = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
@@ -120,12 +120,12 @@ public class EditPlaceActivity extends AppCompatActivity {
         });
         b.save.setOnClickListener(v -> {
             place.setCategory(b.category.getText().toString());
-            place.setDescription(b.textView1.getText().toString());
-            place.setTitle(b.nameplace.getText().toString());
+            place.setDescription(b.etitle.getText().toString());
+            place.setTitle(b.etitle.getText().toString());
             place.setAddress(new Address(b.country.getText().toString(),
                                          b.region.getText().toString(),
                                          b.city.getText().toString(),
-                                         b.textView13.getText().toString(),
+                                         b.street.getText().toString(),
                                          b.house.getText().toString()));
             Networking.getInstance().getJSONApi().updatePlace(place).enqueue(new Callback<String>() {
                 @Override

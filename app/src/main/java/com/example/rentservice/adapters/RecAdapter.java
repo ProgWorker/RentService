@@ -33,10 +33,8 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.RecViewHolder> {
 
     private ArrayList<Place> data;
     GoToPlaceCallback cb;
-    Context context;
-    public RecAdapter(ArrayList<Place> data, Context context){
+    public RecAdapter(ArrayList<Place> data){
         this.data = data;
-        this.context = context;
     }
 
     public void setGoPlace(GoToPlaceCallback cb){
@@ -61,7 +59,7 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.RecViewHolder> {
         Address addr = data.get(position).getAddress();
         holder.subtitle.setText(addr.getCity() + ": " + addr.getStreet() + ", " + addr.getHome());
 
-        Glide.with(context).load("http://10.0.2.2:8000"+data.get(position).getPict()).into(holder.image);
+        Picasso.get().load("http://10.0.2.2:8000"+data.get(position).getPict()).into(holder.image);
         holder.itemView.setOnClickListener(v -> {
             cb.goToPlace(data.get(position).getId());
         });

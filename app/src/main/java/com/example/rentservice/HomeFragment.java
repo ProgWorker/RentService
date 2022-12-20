@@ -34,12 +34,14 @@ import com.example.rentservice.adapters.CategoryAdapter;
 import com.example.rentservice.adapters.OrderAdapter;
 import com.example.rentservice.adapters.RecAdapter;
 import com.example.rentservice.databinding.FilterBinding;
+import com.example.rentservice.util.callbacks.ChangeCategoryCallback;
 import com.example.rentservice.util.callbacks.GoToPlaceCallback;
 import com.example.rentservice.databinding.FragmentHomeBinding;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -51,10 +53,12 @@ public class HomeFragment extends Fragment {
     public String nik;
     private SharedPreferences sp;
     ArrayList<String> params;
+    ArrayList<Place> places;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         b = FragmentHomeBinding.inflate(inflater, container, false);
         View root = b.getRoot();
+        places = new ArrayList<>();
         nik = getActivity().getIntent().getStringExtra("Nickname");
         params = new ArrayList<>();
         LinearLayoutManager category_manager = new LinearLayoutManager(getContext());
@@ -73,9 +77,7 @@ public class HomeFragment extends Fragment {
         Bitmap bitmap = BitmapFactory.decodeStream(istr);*/
 
 
-        CategoryAdapter cd = new CategoryAdapter(getActivity(), mn, ()->{
-            updateCategory();
-        });
+        CategoryAdapter cd = new CategoryAdapter(getActivity(), mn);
         Networking.getInstance().getJSONApi().getParams().enqueue(new Callback<ArrayList<String>>() {
             @Override
             public void onResponse(Call<ArrayList<String>> call, Response<ArrayList<String>> response) {
@@ -107,15 +109,20 @@ public class HomeFragment extends Fragment {
 
 
 
+        RecAdapter rd = new RecAdapter(places);
+
+        cd.setFilter(v -> {
+            rd.setData((ArrayList<Place>) places.stream().filter(c -> c.getCategory().equals(v)).collect(Collectors.toList()));
+            rd.notifyDataSetChanged();
+        });
 
         b.categoryList.setAdapter(cd);
-        ArrayList<Place> rn = new ArrayList<>();
 
 
 
 
 
-        RecAdapter rd = new RecAdapter(rn, requireContext());
+
         //ArrayList<RecNode> data = new ArrayList<>();
         //Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.backgrounds);
         //data.add(new RecNode(bm, "asd", "asdf", "asdasf"));
@@ -134,6 +141,7 @@ public class HomeFragment extends Fragment {
                     public void onResponse(Call<PBase> call, Response<PBase> response) {
                         if (response.code() < 400){
                             PBase data = response.body();
+                            places = (ArrayList<Place>)data.getPlaces();
                             rd.setData((ArrayList<Place>)data.getPlaces());
                         } else {
                             Toast.makeText(requireContext(), "Invalid data "+response.code(), Toast.LENGTH_SHORT).show();
@@ -144,7 +152,6 @@ public class HomeFragment extends Fragment {
                         Toast.makeText(requireContext(), "asdf", Toast.LENGTH_SHORT).show();
                     }
                 });
-
         b.recList.setAdapter(rd);
 
         b.filter.setOnClickListener(view -> {

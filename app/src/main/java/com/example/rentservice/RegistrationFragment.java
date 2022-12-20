@@ -16,7 +16,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.rentservice.Server.Networking;
+import com.example.rentservice.Server.POJO.User.User;
+import com.example.rentservice.Server.POJO.User.UserData;
 import com.example.rentservice.databinding.FragmentRegistrationBinding;
+import com.example.rentservice.util.SBHelper;
+
+import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,9 +35,6 @@ import com.example.rentservice.databinding.FragmentRegistrationBinding;
  */
 public class RegistrationFragment extends Fragment {
     FragmentRegistrationBinding b;
-    EditText log,pass,pass2;
-    TextView link;
-    Button login;
 
     public RegistrationFragment() {
         // Required empty public constructor
@@ -58,34 +65,41 @@ public class RegistrationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_registration, container, false);
+        b = FragmentRegistrationBinding.inflate(getLayoutInflater());
         b.linkLog.setOnClickListener(v -> {
             goToLogin();
         });
 
         b.regBt.setOnClickListener(v -> {
-            if(b.regPas1.getText().toString().equals(b.regPas2.getText().toString())) {
-                SQLiteDatabase db = getActivity().getBaseContext().openOrCreateDatabase("app.db", getActivity().MODE_PRIVATE, null);
+            boolean can = !b.phone.getText().toString().isEmpty() &&
+                    !b.email.getText().toString().isEmpty() &&
+                    !b.regNick.getText().toString().isEmpty() &&
+                    !b.regPas1.getText().toString().isEmpty() &&
+                    !b.regPas2.getText().toString().isEmpty();
+            if(b.regPas1.getText().toString().equals(b.regPas2.getText().toString()) && can) {
+                User user = new User(b.regNick.getText().toString(), b.email.getText().toString(),
+                        b.phone.getText().toString(), b.cdNode.isChecked()?"Owner":"User", b.regPas1.getText().toString());
+                Networking.getInstance().getJSONApi().createUser(user).enqueue(new Callback<UserData>() {
+                    @Override
+                    public void onResponse(Call<UserData> call, Response<UserData> response) {
+                        UserData data = response.body();
+                        new SBHelper(requireContext()).remeberUser(Objects.requireNonNull(data).getUser(), data.getToken());
+                        Toast.makeText(getContext(), data.getUser().getUsername(), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getActivity(), MainActivity.class);
+                        intent.putExtra("username", data.getUser().getUsername());
+                        intent.putExtra("userid", data.getUser().getId());
+                        intent.putExtra("token", data.getToken());
+                        startActivity(intent);
+                        requireActivity().finish();
+                    }
 
-                db.execSQL("CREATE TABLE IF NOT EXISTS Users (nick TEXT unique not null, pas TEXT, avatar TEXT , " +
-                        "height INTEGER , weight INTEGER , blood_pressure TEXT , birth TEXT, phone Text)");
-                //db.execSQL("DELETE FROM food WHERE animalType ="+ curentAnimal);
-
-                Cursor query = db.rawQuery("SELECT * FROM Users WHERE nick like '" + b.regNick.getText() + "'" , null);
-                if ((query != null) && (query.getCount() > 0)) {
-                    Toast.makeText(getContext(), "Пользователь с таким именем уже существует", Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    db.execSQL("INSERT OR IGNORE INTO Users (nick, pas) VALUES ('" + b.regNick.getText().toString().replace("'", "''")
-                            + "', '" + b.regPas1.getText().toString().replace("'", "''") + "')");
-
-                    goToLogin();
-                }
-                db.close();
-            } else {
-                Toast.makeText(getContext(), "Пожалуйста, введите совпадающий пароль в оба поля", Toast.LENGTH_SHORT).show();
+                    @Override
+                    public void onFailure(Call<UserData> call, Throwable t) {
+                        Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         });
-        return view;
+        return b.getRoot();
     }
 }

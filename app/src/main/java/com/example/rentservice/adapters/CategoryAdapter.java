@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.rentservice.HomeFragment;
 import com.example.rentservice.R;
 import com.example.rentservice.Server.POJO.Place.Cat;
+import com.example.rentservice.util.callbacks.ChangeCategoryCallback;
 
 import java.util.ArrayList;
 
@@ -22,12 +23,16 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MoodVi
 
     private ArrayList<Cat> data;
     private Context context;
-    private MoodUpdateListener ntf;
+    ChangeCategoryCallback cc;
     Bitmap bm;
-    public CategoryAdapter(Context context, ArrayList<Cat> data, MoodUpdateListener nft){
+
+    public void setFilter(ChangeCategoryCallback c){
+        cc=c;
+    }
+
+    public CategoryAdapter(Context context, ArrayList<Cat> data){
         this.data = data;
         this.context=context;
-        ntf=nft;
         bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.backgrounds);
     }
 
@@ -47,6 +52,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MoodVi
     public void onBindViewHolder(@NonNull MoodViewHolder holder, int position) {
         holder.title.setText(data.get(position).getName());
         holder.category.setImageBitmap(bm);
+        holder.category.setOnClickListener(v -> {
+            cc.filter(data.get(position).getName());
+        });
 
     }
 

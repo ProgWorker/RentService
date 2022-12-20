@@ -9,13 +9,12 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="262dp"
+        android:layout_height="261dp"
         android:background="@drawable/logot"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/sss"
@@ -24,7 +23,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="132dip"
         android:fontFamily="sans-serif"
-        android:text="Register"
+        android:text="Зарегистироваться"
         android:textColor="@color/white"
         android:textFontWeight="400"
         android:textSize="25sp"
@@ -33,7 +32,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.223" />
+        app:layout_constraintVertical_bias="0.118" />
 
     <EditText
         android:id="@+id/reg_nick"
@@ -42,7 +41,7 @@
         android:layout_height="45dp"
         android:layout_gravity="center"
         android:backgroundTint="@color/white"
-        android:hint="Nickname"
+        android:hint="Имя пользователя"
         android:maxLines="1"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
@@ -51,7 +50,45 @@
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.482" />
+        app:layout_constraintVertical_bias="0.393" />
+
+    <EditText
+        android:id="@+id/email"
+        style="@style/CardView.Light"
+        android:layout_width="342dp"
+        android:layout_height="45dp"
+        android:layout_gravity="center"
+        android:backgroundTint="@color/white"
+        android:hint="email"
+        android:inputType="textEmailAddress"
+        android:maxLines="1"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reg_nick"
+        app:layout_constraintVertical_bias="0.024" />
+
+    <EditText
+        android:id="@+id/phone"
+        style="@style/CardView.Light"
+        android:layout_width="342dp"
+        android:layout_height="45dp"
+        android:layout_gravity="center"
+        android:backgroundTint="@color/white"
+        android:hint="телефон"
+        android:inputType="phone"
+        android:maxLines="1"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/email"
+        app:layout_constraintVertical_bias="0.028" />
 
     <EditText
         android:id="@+id/reg_pas1"
@@ -59,16 +96,17 @@
         android:layout_width="342dp"
         android:layout_height="45dp"
         android:layout_gravity="center"
-        android:layout_marginTop="16dp"
-        android:hint="Password"
-        android:inputType="textPassword"
+        android:layout_marginTop="8dp"
         android:backgroundTint="@color/white"
+        android:hint="Пароль"
+        android:inputType="textPassword"
         android:maxLines="1"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/reg_nick" />
+        app:layout_constraintTop_toBottomOf="@+id/phone" />
 
     <EditText
         android:id="@+id/reg_pas2"
@@ -76,18 +114,19 @@
         android:layout_width="342dp"
         android:layout_height="45dp"
         android:layout_gravity="center"
-        android:layout_marginTop="16dp"
-        android:hint="Repeat password"
-        android:inputType="textPassword"
+        android:layout_marginTop="6dp"
         android:backgroundTint="@color/white"
+        android:hint="Повторите пароль"
+        android:inputType="textPassword"
         android:maxLines="1"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/reg_pas1"
-        app:layout_constraintVertical_bias="0.005" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <android.widget.Button
         android:id="@+id/reg_bt"
@@ -103,7 +142,7 @@
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.789" />
+        app:layout_constraintVertical_bias="0.872" />
 
     <TextView
         android:id="@+id/link_log"
@@ -117,5 +156,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/reg_bt"
         app:layout_constraintVertical_bias="0.247" />
+
+
+    <CheckBox
+        android:id="@+id/cd_node"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:background="@drawable/rec_back"
+        android:button="@null"
+        android:checked="false"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        android:drawableStart="@drawable/custom_checkbox"
+        android:drawablePadding="20dp"
+        android:gravity="start|center_vertical"
+        android:paddingStart="8dp"
+        android:text="Арендатор"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/reg_pas2"
+        tools:layout_editor_absoluteX="5dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

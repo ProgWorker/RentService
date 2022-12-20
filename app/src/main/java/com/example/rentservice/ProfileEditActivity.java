@@ -35,6 +35,7 @@ import retrofit2.Response;
 public class ProfileEditActivity extends AppCompatActivity {
     ActivityProfileEditBinding b;
     Uri imgUri;
+    String ava;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,13 +63,11 @@ public class ProfileEditActivity extends AppCompatActivity {
         });
         b.avatar.setOnClickListener(v -> {
             pickImage.launch(new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI));
-
         });
         b.save.setOnClickListener(v -> {
             User usr = usrd.getUser();
             if(imgUri!=null) {
-                String [] i = imgUri.getPath().split("/");
-                usr.setAvatar("/static/images/" + i[i.length-1]);
+                usr.setAvatar(ava);
             }
             usr.setEmail(Objects.requireNonNull(b.email.getText()).toString());
             usr.setFirst_name(Objects.requireNonNull(b.name.getText()).toString());
@@ -84,6 +83,7 @@ public class ProfileEditActivity extends AppCompatActivity {
                 public void onResponse(Call<String> call, Response<String> response) {
                     helper.dropSession(usr.getId());
                     helper.remeberUser(usr, usrd.getToken());
+                    finish();
                 }
                 @Override
                 public void onFailure(Call<String> call, Throwable t) {}
@@ -102,6 +102,7 @@ public class ProfileEditActivity extends AppCompatActivity {
                     if(response.isSuccessful()){
                         Bitmap bitmap;
                         try {
+                            ava = response.body();
                             bitmap = BitmapFactory.decodeStream(getBaseContext().getContentResolver().openInputStream(imgUri));
                             b.avatar.setImageBitmap(bitmap);
                         } catch (FileNotFoundException e) {

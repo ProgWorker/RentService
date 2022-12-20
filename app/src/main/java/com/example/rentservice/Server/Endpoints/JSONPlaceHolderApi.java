@@ -78,10 +78,13 @@ public interface JSONPlaceHolderApi {
     @POST("api/updateplace")
     Call<String> updatePlace(@Body Place place);
 
+    @Multipart
     @POST("api/createplace")
-    Call<String> createPlace(@Body Place place);
+    Call<String> createPlace(@Part("place") Place place, @Part MultipartBody.Part image, @Header("token") String token);
 
     @POST("api/postcomment")
     Call<String> postComment(@Header("token") String token, @Body HashMap<String, Object> data);
 
+    @POST("api/createuser")
+    Call<UserData> createUser(@Body User user);
 }
